@@ -17,7 +17,7 @@ class Person {
     this.key = key;
   }
 
-  getKey() {
+  getKey(): Key {
     return this.key;
   }
 }
@@ -32,20 +32,23 @@ abstract class House {
   }
 
   comeIn(person: Person): void {
-    if (!this.door)
-      throw new Error('⚠️Person cant enter - the door is closed.');
-    this.tenants.push(person);
-    console.log('✅Person entered successfully');
+    if (!this.door) console.log('⚠️Person cant enter - the door is closed.');
+    else {
+      this.tenants.push(person);
+      console.log('✅Person entered successfully');
+    }
   }
-  abstract OpenDoor(key: Key): void;
+  abstract openDoor(key: Key): void;
 }
 
 class MyHouse extends House {
-  OpenDoor(key: Key): void {
+  openDoor(key: Key): void {
     if (key.getSignature() !== this.key.getSignature())
-      throw new Error('⚠️Wrong key!');
-    this.door = true;
-    console.log('✅The door is successfully opend!');
+      console.log('⚠️Wrong key!');
+    else {
+      this.door = true;
+      console.log('✅The door is successfully opend!');
+    }
   }
 }
 
@@ -58,7 +61,7 @@ console.log(key2);
 const house = new MyHouse(key);
 const person = new Person(key);
 
-house.OpenDoor(person.getKey());
+house.openDoor(person.getKey());
 
 house.comeIn(person);
 
